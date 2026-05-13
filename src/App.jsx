@@ -1,15 +1,19 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "./assets/vite.svg";
-import heroImg from "./assets/hero.png";
+import { Suspense } from "react";
 import "./App.css";
+import Countries from "./components/Countries/Countries";
+const CountriesAllData = async () => {
+  const res = await fetch("https://openapi.programming-hero.com/api/all");
+  return res.json();
+};
+const CountriesData = CountriesAllData();
+// console.log(CountriesData);
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
-      <h1>visited countries</h1>
+      <Suspense fallback={<h2>Countries Data Loading.....</h2>}>
+        <Countries CountriesData={CountriesData}></Countries>
+      </Suspense>
     </>
   );
 }
